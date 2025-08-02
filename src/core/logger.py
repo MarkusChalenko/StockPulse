@@ -6,6 +6,13 @@ request_path_ctx_var = contextvars.ContextVar("request_path", default=None)
 
 
 class RequestContextFilter(logging.Filter):
+    """
+    Logging filter that injects request-specific context into log records.
+
+    Adds attributes:
+        request_id (str): Unique request identifier.
+        request_path (str): Path of the HTTP request.
+    """
     def filter(self, record):
         record.request_id = request_id_ctx_var.get() or "N/A"
         record.request_path = request_path_ctx_var.get() or "N/A"
