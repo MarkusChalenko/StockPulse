@@ -101,6 +101,13 @@ app.add_middleware(
 
 @app.get("/ping")
 async def root() -> str:
+    """
+    Health check endpoint that returns "pong".
+
+    Logs a "Pong!" message at INFO level.
+    Returns:
+        str: The string "pong".
+    """
     logger.info("Pong!")
     return "pong"
 
