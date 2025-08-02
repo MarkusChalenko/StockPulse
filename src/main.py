@@ -50,6 +50,19 @@ logger = logging.getLogger('main')
 
 @app.middleware("http")
 async def log_errors_and_execution_time(request, call_next):
+    """
+    HTTP middleware to log execution time and handle errors gracefully.
+
+    - Generates or propagates a unique "X-Request-ID" for each request.
+    - Records start time and logs execution duration.
+    - Captures exceptions and returns a standardized JSON error response.
+    - Adds "X-Request-ID" header to the response.
+    Args:
+        request (Request): The incoming HTTP request.
+        call_next (Callable): The next ASGI call handler.
+    Returns:
+        Response: The HTTP response object.
+    """
     request_id = request.headers.get("X-Request-ID", str(uuid4())[:8])
     request_id_ctx_var.set(request_id)
 
