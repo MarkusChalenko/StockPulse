@@ -73,6 +73,7 @@ async def log_errors_and_execution_time(request, call_next):
     try:
         response = await call_next(request)
     except Exception as msg:
+        logger.info(f"exception: {msg}")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
