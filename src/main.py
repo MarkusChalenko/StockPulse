@@ -17,6 +17,15 @@ from core.logger import LOGGING_CONFIG, request_id_ctx_var, request_path_ctx_var
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncContextManager[None]:
+    """
+    Asynchronous context manager for FastAPI application lifespan.
+
+    Configures logging before the application starts.
+    Args:
+        app (FastAPI): The FastAPI application instance.
+    Yields:
+        None
+    """
     logging.config.dictConfig(LOGGING_CONFIG)
     yield
 
