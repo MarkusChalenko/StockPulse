@@ -40,12 +40,11 @@ LOGGING_CONFIG = {
             "stream": "ext://sys.stderr"
         },
     },
-    "loggers": {
-        "root": {
-            "level": "DEBUG",
-            "handlers": [
-                "stderr",
-            ]
-        }
+    
+    "root": {
+        "level": "DEBUG",
+        "handlers": [
+            "stderr",
+        ]
     }
 }

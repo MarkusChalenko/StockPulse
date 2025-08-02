@@ -60,7 +60,7 @@ async def log_errors_and_execution_time(request, call_next):
             }
         )
     finally:
-        logger.info(f"exc_time: {(time.time() - request.state.start_time):.3f} ms")
+        logger.info(f"exc_time: {(time.time() - request.state.start_time):.3f} s")
 
     response.headers["X-Request-ID"] = request_id
 
@@ -79,7 +79,7 @@ app.add_middleware(
 
 @app.get("/ping")
 async def root() -> str:
-    logger.info("Pong! asdasd")
+    logger.info("Pong!")
     return "pong"
 
 
