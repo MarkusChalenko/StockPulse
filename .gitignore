@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Infrastructure
+infra/grafana/provisioning/datasource.yml
+infra/database/init.sql
+infra/nginx/nginx.conf
