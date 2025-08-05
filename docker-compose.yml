@@ -58,7 +58,8 @@ services:
       - app
     environment:
       GF_DATABASE_TYPE: postgres
-      GF_DATABASE_HOST: ${DB_HOST}:${DB_PORT}
+      GF_DATABASE_HOST: ${DB_HOST}
+      GF_DATABASE_PORT: ${DB_PORT}
       GF_DATABASE_NAME: ${GRAFANA_DB}
       GF_DATABASE_USER: ${GRAFANA_ADMIN_USER}
       GF_DATABASE_PASSWORD: ${GRAFANA_ADMIN_PASS}
@@ -83,7 +84,7 @@ services:
     networks:
       - app
     environment:
-      NGINX_ENVSUBST_FILTER: ^(APP_HOST|APP_PORT|GF_HOST|GF_PORT|LISTEN_PORT)$
+      NGINX_ENVSUBST_FILTER: ^(APP_PORT|GF_PORT|LISTEN_PORT)$
 
 networks:
   app:

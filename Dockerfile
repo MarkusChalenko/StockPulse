@@ -16,7 +16,6 @@ RUN python -m pip install --no-cache-dir poetry==2.1.3 \
     && rm -rf $(poetry config cache-dir)/{cache,artifacts}
 
 COPY src ./src/
-COPY .env .env
 
 VOLUME /app
 
