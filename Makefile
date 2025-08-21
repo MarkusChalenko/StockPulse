@@ -28,3 +28,5 @@ init_db: clean_init_db
 # Задача: Очистка init_db
 clean_init_db:
 	rm -f $(DB_INIT_OUTPUT_FILE)
+
+app_setup: provisioning init_db
