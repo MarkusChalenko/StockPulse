@@ -1,5 +1,6 @@
 import multiprocessing
-from typing import Optional
+from functools import lru_cache
+from typing import Optional, Dict
 
 from pydantic_settings import BaseSettings
 
@@ -9,27 +10,44 @@ class AppSettings(BaseSettings):
     Application settings for the StockPulse FastAPI application.
 
     Attributes:
-        app_port (int): Port on which the application runs.
-        app_host (str): Host address for the application.
-        app_reload (bool): Enable or disable live reload.
-        app_cpu_count (Optional[int]): Number of CPU workers; uses env var or auto-detection.
+        APP_PORT (int): Port on which the application runs.
+        APP_HOST (str): Host address for the application.
+        APP_RELOAD (bool): Enable or disable live reload.
+        APP_CPU_COUNT (Optional[int]): Number of CPU workers; uses env var or auto-detection.
+
+        REDIS_URL (str): Redis connection url
+        REDIS_POOL_MAX_CONNECTIONS (int): Count of redis-pool active connections
+
+        SELENIUM_PHONE_NUMBER (str): T-client auth phone number
+        SELENIUM_MAIN_URL (str): T-client selenium entrypoint urk
     """
-    app_port: int = 8000
-    app_host: str = '0.0.0.0'
-    app_reload: bool = False
-    app_cpu_count: Optional[int]
+    APP_PORT: int = 8000
+    APP_HOST: str = '0.0.0.0'
+    APP_RELOAD: bool = False
+    APP_CPU_COUNT: Optional[int]
+
+    REDIS_URL: str = "redis://localhost:6379"
+    REDIS_POOL_MAX_CONNECTIONS: int = 3
+
+    SELENIUM_PHONE_NUMBER: str = "+79780353541"
+    SELENIUM_MAIN_URL: str = "https://www.tbank.ru/"
 
     class Config:
         env_file = ".env"
         extra = 'allow'
 
 
-app_settings = AppSettings()
+@lru_cache
+def get_settings() -> AppSettings:
+    return AppSettings()
+
 
 # набор опций для запуска сервера
-uvicorn_options = {
-    "host": app_settings.app_host,
-    "port": app_settings.app_port,
-    "workers": app_settings.app_cpu_count or multiprocessing.cpu_count(),
-    "reload": app_settings.app_reload
-}
+def get_server_options() -> Dict:
+    app_settings = get_settings()
+    return {
+        "host": app_settings.APP_HOST,
+        "port": app_settings.APP_PORT,
+        "workers": app_settings.APP_CPU_COUNT or multiprocessing.cpu_count(),
+        "reload": app_settings.APP_RELOAD
+    }
